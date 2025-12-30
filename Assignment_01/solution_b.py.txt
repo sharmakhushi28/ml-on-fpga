@@ -1,0 +1,32 @@
+from sklearn.metrics import r2_score
+import pandas as pd
+import numpy as np
+
+dataset = pd.read_csv("/Users/khush/Downloads/regressionprob1_train0.csv")
+
+df = pd.read_csv("/Users/khush/Downloads/regressionprob1_train0.csv")
+X = df.iloc[:,0:4].values
+Y = df['F'].values
+ones_ = np.ones(len(Y),float)
+A = np.column_stack((ones_, X))
+
+ATA = A.T @A
+ATY = A.T @Y
+w = np.linalg.inv(ATA) @ATY
+
+w_inverse = np.linalg.inv(ATA) @ATY
+Yp_inverse = A @ w
+R2_inverse = r2_score(Y , Yp_inverse)
+
+w_solve = np.linalg.solve(ATA, ATY) 
+Yp_solve = A @ w
+R2_solve = r2_score(Y , Yp_solve)
+
+print("Matrix Comparision\n")
+print("term: ", w_inverse)
+print("weight: ", w_inverse)
+print("R2: \n", R2_inverse)
+
+print("term: ", w_solve)
+print("weight: ", w_solve)
+print("R2: ", R2_solve)
